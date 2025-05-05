@@ -42,6 +42,8 @@ entity top_basys3 is
     );
 end top_basys3;
 
+
+
 architecture top_basys3_arch of top_basys3 is 
   
 	-- declare components and signals
@@ -63,14 +65,36 @@ component ALU
             );
         end component;
     
- -- Signals
-           signal operand_A : std_logic_vector(7 downto 0);
-           signal operand_B : std_logic_vector(7 downto 0);
-           signal opcode    : std_logic_vector(2 downto 0);
-           signal result    : std_logic_vector(7 downto 0);
-           signal flags     : std_logic_vector(3 downto 0);
-           signal state     : std_logic_vector(3 downto 0);
-           signal display   : std_logic_vector(7 downto 0);
+ component clock_divider
+                generic (
+                    k_DIV : integer := 50000000
+                );
+                port (
+                    i_clk   : in std_logic;
+                    i_reset : in std_logic;
+                    o_clk   : out std_logic
+                );
+            end component;
+        
+            component sevenseg_decoder
+                port (
+                    i_hex : in std_logic_vector(3 downto 0);
+                    o_seg : out std_logic_vector(6 downto 0)
+                );
+            end component;
+        
+            -- Internal Signals
+            signal operand_A      : std_logic_vector(7 downto 0);
+            signal operand_B      : std_logic_vector(7 downto 0);
+            signal opcode         : std_logic_vector(2 downto 0);
+            signal result         : std_logic_vector(7 downto 0);
+            signal flags          : std_logic_vector(3 downto 0);
+            signal state          : std_logic_vector(3 downto 0);
+            signal display        : std_logic_vector(7 downto 0);
+            signal f_clk          : std_logic;
+            signal w_display_hex  : std_logic_vector(3 downto 0);
+            signal w_seg          : std_logic_vector(6 downto 0);
+
 
   
 begin
@@ -109,52 +133,45 @@ begin
                o_flags  => flags
            );
    
-      
-       process(state)
-       begin
-           case state is
-               when "0001" => display <= (others => '0');       -- blank
-               when "0010" => display <= operand_A;             -- show A
-               when "0100" => display <= operand_B;             -- show B
-               when "1000" => display <= result;                -- show result
-               when others => display <= (others => '0');
-           end case;
-       end process;
-   
-       -- Output LEDs
-       led(7 downto 0)  <= display;
-       led(15 downto 8) <= "0000" & flags;
-   
- 
-       process(display)
-       begin
-           case display(3 downto 0) is
-               when "0000" => seg <= "1000000"; -- 0
-               when "0001" => seg <= "1111001"; -- 1
-               when "0010" => seg <= "0100100"; -- 2
-               when "0011" => seg <= "0110000"; -- 3
-               when "0100" => seg <= "0011001"; -- 4
-               when "0101" => seg <= "0010010"; -- 5
-               when "0110" => seg <= "0000010"; -- 6
-               when "0111" => seg <= "1111000"; -- 7
-               when "1000" => seg <= "0000000"; -- 8
-               when "1001" => seg <= "0010000"; -- 9
-               when "1010" => seg <= "0001000"; -- A
-               when "1011" => seg <= "0000011"; -- b
-               when "1100" => seg <= "1000110"; -- C
-               when "1101" => seg <= "0100001"; -- d
-               when "1110" => seg <= "0000110"; -- E
-               when "1111" => seg <= "0001110"; -- F
-               when others => seg <= "1111111"; -- blank
-           end case;
-       end process;
-   
-       an <= "1110";
-
-	
-	
-	-- CONCURRENT STATEMENTS ----------------------------
-	
-	
-	
-end top_basys3_arch;
+CLKDIV_U : clock_divider
+                   generic map (
+                       k_DIV => 50000000
+                   )
+                   port map (
+                       i_clk   => clk,
+                       i_reset => btnU,
+                       o_clk   => f_clk
+                   );
+           
+               -- Display selection based on FSM state
+               process(state)
+               begin
+                   if state = "0001" then
+                       display <= (others => '0');     -- blank
+                   elsif state = "0010" then
+                       display <= operand_A;
+                   elsif state = "0100" then
+                       display <= operand_B;
+                   elsif state = "1000" then
+                       display <= result;
+                   else
+                       display <= (others => '0');
+                   end if;
+               end process;
+           
+               -- Display Decoder
+               w_display_hex <= display(3 downto 0); -- lower nibble
+               SEVENSEG_U : sevenseg_decoder
+                   port map (
+                       i_hex => w_display_hex,
+                       o_seg => w_seg
+                   );
+           
+               seg <= w_seg;
+               an  <= "1110";  -- Rightmost digit enabled
+           
+               -- LED output
+               led(7 downto 0)  <= display;
+               led(15 downto 8) <= "0000" & flags;
+           
+           end top_basys3_arch;    
