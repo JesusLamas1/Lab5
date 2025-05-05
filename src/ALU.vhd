@@ -79,31 +79,7 @@ begin
        zero <= '1' when (result = 0) else '0';
        
        
---       case i_op is
---           when "000" => -- add
---               result <= A + B;
---               if (A(7) = B(7)) and (result(7) /= A(7)) then
---                   overflow <= '1';
---               end if;
---               if unsigned(i_A) + unsigned(i_B) > 255 then
---                   carry <= '1';
---               end if;
-
---           when "001" => -- sub
---               result <= A - B;
---               if (A(7) /= B(7)) and (result(7) /= A(7)) then
---                   overflow <= '1';
---               end if;
-
---           when "010" => -- and
---               result <= A and B;
-
---           when "011" => -- or
---               result <= A or B;
-
---           when others =>
---               result <= (others => '0');
---       end case;
+--      
 
        o_result <= std_logic_vector(result);
 
