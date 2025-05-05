@@ -75,8 +75,20 @@ component ALU
   
 begin
 	-- PORT MAPS ----------------------------------------
- operand_A <= sw;    
-       operand_B <= sw;
+	process (state)
+    begin
+       if rising_edge(state(1)) then
+          operand_A <= sw; 
+       end if;
+    end process;
+    
+    process (state)
+        begin
+           if rising_edge(state(2)) then
+              operand_B <= sw; 
+           end if;
+        end process;
+
        opcode    <= sw(2 downto 0); 
    
        -- Instantiate controller FSM
