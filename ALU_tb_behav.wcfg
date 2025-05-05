@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="ALU_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="ALU_tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="76400001fs"></ZoomEndTime>
+      <Cursor1Time time="44700000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="119"></NameColumnWidth>
+      <ValueColumnWidth column_width="79"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="15" />
+   <wvobject fp_name="/ALU_tb/w_A" type="array">
+      <obj_property name="ElementShortName">w_A[7:0]</obj_property>
+      <obj_property name="ObjectShortName">w_A[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ALU_tb/w_B" type="array">
+      <obj_property name="ElementShortName">w_B[7:0]</obj_property>
+      <obj_property name="ObjectShortName">w_B[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ALU_tb/w_result" type="array">
+      <obj_property name="ElementShortName">w_result[7:0]</obj_property>
+      <obj_property name="ObjectShortName">w_result[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ALU_tb/w_op" type="array">
+      <obj_property name="ElementShortName">w_op[2:0]</obj_property>
+      <obj_property name="ObjectShortName">w_op[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ALU_tb/w_flags" type="array">
+      <obj_property name="ElementShortName">w_flags[3:0]</obj_property>
+      <obj_property name="ObjectShortName">w_flags[3:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject fp_name="/ALU_tb/OP_ADD" type="array">
+      <obj_property name="ElementShortName">OP_ADD[2:0]</obj_property>
+      <obj_property name="ObjectShortName">OP_ADD[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ALU_tb/OP_SUB" type="array">
+      <obj_property name="ElementShortName">OP_SUB[2:0]</obj_property>
+      <obj_property name="ObjectShortName">OP_SUB[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ALU_tb/OP_AND" type="array">
+      <obj_property name="ElementShortName">OP_AND[2:0]</obj_property>
+      <obj_property name="ObjectShortName">OP_AND[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ALU_tb/OP_OR" type="array">
+      <obj_property name="ElementShortName">OP_OR[2:0]</obj_property>
+      <obj_property name="ObjectShortName">OP_OR[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ALU_tb/k_step" type="other">
+      <obj_property name="ElementShortName">k_step</obj_property>
+      <obj_property name="ObjectShortName">k_step</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ALU_tb/uut/carry" type="logic">
+      <obj_property name="ElementShortName">carry</obj_property>
+      <obj_property name="ObjectShortName">carry</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ALU_tb/uut/overflow" type="logic">
+      <obj_property name="ElementShortName">overflow</obj_property>
+      <obj_property name="ObjectShortName">overflow</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ALU_tb/uut/negative" type="logic">
+      <obj_property name="ElementShortName">negative</obj_property>
+      <obj_property name="ObjectShortName">negative</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ALU_tb/uut/zero" type="logic">
+      <obj_property name="ElementShortName">zero</obj_property>
+      <obj_property name="ObjectShortName">zero</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ALU_tb/uut/result" type="array">
+      <obj_property name="ElementShortName">result[7:0]</obj_property>
+      <obj_property name="ObjectShortName">result[7:0]</obj_property>
+   </wvobject>
+</wave_config>
