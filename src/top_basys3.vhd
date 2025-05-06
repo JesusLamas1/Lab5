@@ -64,22 +64,11 @@ component ALU
                 o_cycle  : out std_logic_vector(3 downto 0)
             );
         end component;
-    
- component clock_divider
-                generic (
-                    k_DIV : integer := 50000000
-                );
-                port (
-                    i_clk   : in std_logic;
-                    i_reset : in std_logic;
-                    o_clk   : out std_logic
-                );
-            end component;
         
             component sevenseg_decoder
                 port (
                     i_hex : in std_logic_vector(3 downto 0);
-                    o_seg : out std_logic_vector(6 downto 0)
+                    o_seg_n : out std_logic_vector(6 downto 0)
                 );
             end component;
         
@@ -91,7 +80,6 @@ component ALU
             signal flags          : std_logic_vector(3 downto 0);
             signal state          : std_logic_vector(3 downto 0);
             signal display        : std_logic_vector(7 downto 0);
-            signal f_clk          : std_logic;
             signal w_display_hex  : std_logic_vector(3 downto 0);
             signal w_seg          : std_logic_vector(6 downto 0);
 
@@ -132,17 +120,7 @@ begin
                o_result => result,
                o_flags  => flags
            );
-   
-CLKDIV_U : clock_divider
-                   generic map (
-                       k_DIV => 50000000
-                   )
-                   port map (
-                       i_clk   => clk,
-                       i_reset => btnU,
-                       o_clk   => f_clk
-                   );
-           
+
                -- Display selection based on FSM state
                process(state)
                begin
@@ -160,11 +138,12 @@ CLKDIV_U : clock_divider
                end process;
            
                -- Display Decoder
-               w_display_hex <= display(3 downto 0); -- lower nibble
+               w_display_hex <= display(3 downto 0);
+               
                SEVENSEG_U : sevenseg_decoder
                    port map (
                        i_hex => w_display_hex,
-                       o_seg => w_seg
+                       o_seg_n => w_seg
                    );
            
                seg <= w_seg;
